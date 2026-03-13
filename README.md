@@ -35,37 +35,53 @@ Los escribes como “El sistema debe…”.
 
 ### MVP obligatorio (curso)
 
-**RF1.** Registrar usuario con email y contraseña.
+#### Fase 1: UI y navegación sin Firebase
 
-**RF2.** Iniciar sesión con email y contraseña.
+**RF1.** Mostrar pantalla de registro con validación local de email y contraseña.
 
-**RF3.** Mantener sesión iniciada y permitir cerrar sesión.
+**RF2.** Mostrar pantalla de inicio de sesión con validación local de email y contraseña.
 
-**RF4.** Crear una tarea con: título (obligatorio) y notas (opcional).
+**RF3.** Permitir navegación entre registro, inicio de sesión y Home.
 
-**RF5.** Listar solo las tareas del usuario autenticado.
+**RF4.** Mostrar estado de carga simulado al enviar formularios válidos.
 
-**RF6.** Marcar una tarea como completada / pendiente.
+**RF5.** Mostrar pantalla principal de tareas con estado vacío.
 
-**RF7.** Editar título/notas de una tarea.
+**RF6.** Permitir crear tareas de manera local o simulada con título obligatorio y notas opcionales.
 
-**RF8.** Eliminar una tarea.
+**RF7.** Permitir marcar tareas como completadas o pendientes de manera local o simulada.
 
-**RF9.** Filtrar tareas: Todas / Pendientes / Completadas.
+**RF8.** Permitir cerrar sesión de forma simulada y volver a la pantalla de acceso.
 
-**RF10.** Funcionar offline y sincronizar al recuperar conexión (Firestore offline).
+#### Fase 2: Integración con Firebase
 
-**RF11.** Aplicar reglas de seguridad para que cada usuario solo acceda a sus tareas.
+**RF9.** Registrar usuario con email y contraseña usando Firebase Auth.
+
+**RF10.** Iniciar sesión con email y contraseña usando Firebase Auth.
+
+**RF11.** Mantener sesión iniciada y permitir cerrar sesión.
+
+**RF12.** Listar solo las tareas del usuario autenticado.
+
+**RF13.** Editar título/notas de una tarea.
+
+**RF14.** Eliminar una tarea.
+
+**RF15.** Filtrar tareas: Todas / Pendientes / Completadas.
+
+**RF16.** Funcionar offline y sincronizar al recuperar conexión (Firestore offline).
+
+**RF17.** Aplicar reglas de seguridad para que cada usuario solo acceda a sus tareas.
 
 ### Extras (elige 2–3)
 
-**RF12.** Prioridad (alta/media/baja).
+**RF18.** Prioridad (alta/media/baja).
 
-**RF13.** Fecha límite (due date).
+**RF19.** Fecha límite (due date).
 
-**RF14.** Búsqueda por texto.
+**RF20.** Búsqueda por texto.
 
-**RF15.** Etiquetas (tags).
+**RF21.** Etiquetas (tags).
 
 ---
 
@@ -75,7 +91,7 @@ Los escribes como “El sistema debe…”.
 
 **RNF2.** Validación de formularios (email/password/título).
 
-**RNF3.** Respuesta ante errores de Auth/Firestore con mensajes claros (no “Exception”).
+**RNF3.** Respuesta ante errores o validaciones con mensajes claros (no “Exception”).
 
 **RNF4.** Código organizado por capas (UI/State/Repo).
 
@@ -93,37 +109,104 @@ Aquí es donde se ponen serios (sin aburrirse).
 
 **Criterios de aceptación:** (Given/When/Then)
 
-### HU-01 Registro
+### Fase 1: UI mock
 
-Como usuario quiero registrarme para crear mi cuenta.
+### HU-01 Registro UI
+
+Como usuario quiero registrar mis datos en una pantalla de registro para validar el flujo inicial de acceso a la app.
+
+**CA:**
+
+- Dado que ingreso un email válido y una contraseña con mínimo 6 caracteres
+- Cuando presiono “Registrarse”
+- Entonces el sistema valida los campos localmente
+- Y muestra un estado de carga breve
+- Y me redirige a Home
+- Y si hay error de validación, se muestra un mensaje entendible.
+
+### HU-02 Login UI
+
+Como usuario quiero iniciar sesión desde una pantalla de acceso para probar la navegación hacia la pantalla principal antes de integrar autenticación real.
+
+**CA:**
+
+- Dado que estoy en la pantalla de inicio de sesión
+- Cuando ingreso un email válido y una contraseña con mínimo 6 caracteres
+- Entonces el sistema valida los campos localmente
+- Y muestra un estado de carga breve
+- Y me redirige a Home
+- Y si hay error de validación, se muestra un mensaje entendible.
+
+### HU-03 Navegación de acceso
+
+Como usuario quiero moverme entre registro, login y Home para probar el flujo completo de la app.
+
+**CA:**
+
+- Dado que estoy en una pantalla de acceso
+- Cuando selecciono la opción de cambiar entre registro o login
+- Entonces el sistema me lleva a la pantalla correspondiente
+- Y cuando cierro sesión desde Home
+- Entonces regreso a la pantalla de acceso.
+
+### HU-04 Crear tarea local
+
+Como usuario quiero crear una tarea de forma local para visualizar cómo organizaré mis actividades.
+
+**CA:**
+
+- Dado que estoy en Home
+- Cuando creo una tarea con título no vacío
+- Entonces la tarea aparece en mi lista local
+- Y si el título está vacío, se muestra un mensaje entendible.
+
+### HU-05 Listar estado vacío
+
+Como usuario quiero ver un estado vacío cuando no tengo tareas para entender que aún no he creado ninguna.
+
+**CA:**
+
+- Dado que no tengo tareas registradas localmente
+- Cuando ingreso a Home
+- Entonces veo un mensaje o ilustración de estado vacío
+- Y se mantiene visible la opción de crear una tarea.
+
+### HU-06 Completar tarea local
+
+Como usuario quiero marcar tareas como completadas para llevar control visual de mis pendientes.
+
+**CA:**
+
+- Dado que tengo tareas creadas localmente
+- Cuando marco una tarea
+- Entonces cambia su estado visual a completada
+- Y cuando la desmarco
+- Entonces vuelve a estado pendiente.
+
+### Fase 2: Firebase
+
+### HU-07 Registro real
+
+Como usuario quiero crear mi cuenta real para guardar mi información de manera persistente.
 
 **CA:**
 
 - Dado que ingreso email válido y password con mínimo 6 caracteres
-- Cuando presiono “Crear cuenta”
-- Entonces se crea el usuario y entro a Home
-- Y si hay error, se muestra un mensaje entendible.
+- Cuando presiono “Registrarse”
+- Entonces se crea el usuario en Firebase Auth
+- Y entro a Home
+- Y si ocurre un error, se muestra un mensaje entendible.
 
-### HU-04 Crear tarea
+### HU-08 Login real
 
-Como usuario quiero crear una tarea para organizarme.
-
-**CA:**
-
-- Dado que estoy autenticado
-- Cuando creo una tarea con título no vacío
-- Entonces la tarea aparece en mi lista
-- Y si estoy sin internet, se guarda y al volver sincroniza
-- Y no debo ver tareas de otros usuarios.
-
-### HU-06 Completar tarea
-
-Como usuario quiero marcar tareas como completadas para llevar control.
+Como usuario quiero iniciar sesión con mi cuenta real para acceder a mis tareas personales.
 
 **CA:**
 
-- Cuando marco una tarea
-- Entonces cambia el estado visual y se actualiza en Firestore.
+- Dado que tengo una cuenta registrada
+- Cuando ingreso credenciales válidas
+- Entonces inicio sesión en Firebase Auth y entro a Home
+- Y si las credenciales son incorrectas, se muestra un mensaje entendible.
 
 > Con 6–8 historias con CA ya tienes un backlog sólido.
 > 
@@ -248,3 +331,4 @@ Para facilitar el aprendizaje y el desarrollo, aquí tienes enlaces directos a g
 
 - 📂 [Estructura del Proyecto](./docs/01_estructura_proyecto.md): Conoce cómo están organizadas las carpetas y archivos, y para qué sirve cada una.
 - 🧪 [Pruebas Unitarias en Flutter](./docs/02_pruebas_unitarias.md): Descubre qué son, por qué son vitales para mantener la calidad del código, y cómo usar nuestros ejemplos en el proyecto.
+- 📝 [Registro de Usuario (UI Validaciones)](./docs/03_registro_ui.md): Explicación del flujo de "Mock Login" de esta primera fase de interfaz y ejemplos de campos funcionales.
