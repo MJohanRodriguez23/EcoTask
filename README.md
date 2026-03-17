@@ -306,35 +306,35 @@ Define componentes:
 
 Enfatiza que el curso seguirá estas fases:
 
-### Fase 0 — Planeación y diseño (Semana 1)
+### Fase 0 — Planeación y diseño
 
 - Requisitos + historias + modelo + wireframes
 
-### Fase 1 — UI + navegación (Semanas 2–3)
+### Fase 1 — UI + navegación
 
 - Pantallas y flujo
 
-### Fase 2 — Auth (Semana 4)
+### Fase 2 — Auth
 
 - Firebase Auth
 
-### Fase 3 — CRUD (Semanas 5–6)
+### Fase 3 — CRUD
 
 - Firestore tasks
 
-### Fase 4 — Arquitectura y estado (Semana 7)
+### Fase 4 — Arquitectura y estado
 
 - capas y state management
 
-### Fase 5 — Offline + reglas (Semanas 8–10)
+### Fase 5 — Offline + reglas
 
 - sincronización + security rules
 
-### Fase 6 — Calidad + release (Semanas 11–12)
+### Fase 6 — Calidad + release
 
 - tests + APK + docs
 
-### Final — Mini-proyecto equipos (Semanas 13–14)
+### Final — Mini-proyecto equipos
 
 ---
 
@@ -342,7 +342,7 @@ Enfatiza que el curso seguirá estas fases:
 
 Para cerrar la sesión A o dejarlo para la sesión B:
 
-**Documento “Especificación To-Do UFPSO v1”** (1–2 páginas) con:
+✅ **Documento “Especificación To-Do UFPSO v1”** (1–2 páginas) con:
 
 1. Objetivo del producto
 2. RF (MVP + extras)
@@ -370,13 +370,3 @@ En equipos de 3–4:
 - 20: modelo de datos coherente
 - 10: wireframes claros
 - 10: calidad del documento (orden, claridad)
-
----
-
-## 📚 Documentación y Material de Referencia
-
-Para facilitar el aprendizaje y el desarrollo, aquí tienes enlaces directos a guías y explicaciones adicionales del proyecto:
-
-- 📂 [Estructura del Proyecto](./docs/01_estructura_proyecto.md): Conoce cómo están organizadas las carpetas y archivos, y para qué sirve cada una.
-- 🧪 [Pruebas Unitarias en Flutter](./docs/02_pruebas_unitarias.md): Descubre qué son, por qué son vitales para mantener la calidad del código, y cómo usar nuestros ejemplos en el proyecto.
-- 📝 [Registro de Usuario (UI Validaciones)](./docs/03_registro_ui.md): Explicación del flujo de "Mock Login" de esta primera fase de interfaz y ejemplos de campos funcionales.
