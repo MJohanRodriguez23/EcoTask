@@ -14,8 +14,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'To-Do UFPSO',
+      title: 'Eco-Task',
       theme: AppTheme.light(),
+      debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       routes: {
         '/register': (context) => const RegisterScreen(),

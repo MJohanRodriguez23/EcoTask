@@ -2,6 +2,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_ufpso/utils/app_theme.dart';
 import 'package:to_do_ufpso/utils/validators.dart';
+import 'package:to_do_ufpso/widgets/eco_logo.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -72,9 +73,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Iniciar Sesion'),
-      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -85,13 +83,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  const EcoLogo(size: 100),
+                  const SizedBox(height: 24),
                   const Text(
-                    'To-Do UFPSO',
+                    'Eco-Task',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
+                      color: AppColors.darkGreen,
+                    ),
+                  ),
+                  const Text(
+                    'Tu lista de tareas ecológica',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: AppColors.gray,
                     ),
                   ),
                   const SizedBox(height: 48),
@@ -99,8 +107,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
-                      labelText: 'Correo Electronico',
-                      prefixIcon: Icon(Icons.email),
+                      labelText: 'Correo Electrónico',
+                      prefixIcon: Icon(Icons.email_outlined),
                       border: OutlineInputBorder(),
                     ),
                     validator: Validators.validateEmail,
@@ -110,11 +118,93 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _passwordController,
                     obscureText: true,
                     decoration: const InputDecoration(
-                      labelText: 'Contrasena',
-                      prefixIcon: Icon(Icons.lock),
+                      labelText: 'Contraseña',
+                      prefixIcon: Icon(Icons.lock_outline),
                       border: OutlineInputBorder(),
                     ),
                     validator: Validators.validatePassword,
+                  ),
+                  const SizedBox(height: 24),
+                  // Estadísticas ecológicas
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColors.primary.withOpacity(0.1),
+                          AppColors.secondary.withOpacity(0.1),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.emoji_nature,
+                              color: AppColors.primary,
+                              size: 28,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '🌱',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Text(
+                              'Árboles',
+                              style: TextStyle(
+                                color: AppColors.darkGreen,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.water_drop,
+                              color: AppColors.accent,
+                              size: 28,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '💧',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Text(
+                              'Agua',
+                              style: TextStyle(
+                                color: AppColors.darkGreen,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.recycling,
+                              color: AppColors.accent,
+                              size: 28,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '♻️',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Text(
+                              'Reciclar',
+                              style: TextStyle(
+                                color: AppColors.darkGreen,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 32),
                   ElevatedButton(
@@ -135,7 +225,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 24),
                   const Text(
-                    'O continua con',
+                    'O continúa con',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: AppColors.gray),
                   ),
@@ -178,7 +268,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         child: const Text(
-                          'Registrate gratis',
+                          'Regístrate gratis',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -188,6 +278,35 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.primary,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.favorite,
+              color: Colors.white,
+              size: 20,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              'Cuidando el planeta, una tarea a la vez',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
       ),
     );

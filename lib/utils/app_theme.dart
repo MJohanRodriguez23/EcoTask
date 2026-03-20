@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color primary = Color.fromRGBO(188, 0, 23, 1);
+  // Colores ambientales y de reciclaje
+  static const Color primary = Color.fromRGBO(76, 175, 80, 1); // Verde principal
+  static const Color secondary = Color.fromRGBO(139, 195, 74, 1); // Verde lima
+  static const Color accent = Color.fromRGBO(0, 150, 136, 1); // Verde azulado
+  static const Color darkGreen = Color.fromRGBO(27, 94, 32, 1); // Verde oscuro
+  static const Color brown = Color.fromRGBO(121, 85, 72, 1); // Tierra/marrón
+  static const Color lightBlue = Color.fromRGBO(227, 242, 253, 1); // Azul cielo claro
+  
+  // Colores neutros
   static const Color black = Color.fromRGBO(0, 0, 0, 1);
   static const Color gray = Color.fromRGBO(129, 131, 134, 1);
   static const Color gray50 = Color.fromRGBO(129, 131, 134, 0.5);
-  static const Color surface = Color.fromRGBO(250, 250, 250, 1);
+  static const Color surface = Color.fromRGBO(248, 251, 248, 1); // Fondo verde muy claro
 }
 
 class AppTheme {
   static ThemeData light() {
     const colorScheme = ColorScheme.light(
       primary: AppColors.primary,
-      onPrimary: Colors.white,
-      secondary: AppColors.black,
-      onSecondary: Colors.white,
-      surface: Colors.white,
-      onSurface: AppColors.black,
-      error: AppColors.primary,
+      secondary: AppColors.secondary,
+      surface: AppColors.surface,
+      onSurface: AppColors.darkGreen,
+      error: AppColors.brown,
       onError: Colors.white,
     );
 
@@ -40,9 +46,9 @@ class AppTheme {
         ),
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.white,
-        foregroundColor: AppColors.black,
-        elevation: 0,
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
+        elevation: 2,
         centerTitle: true,
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -100,7 +106,7 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.primary,
+          foregroundColor: AppColors.darkGreen,
           textStyle: const TextStyle(
             fontFamily: 'Trebuchet MS',
             fontWeight: FontWeight.w600,
@@ -108,7 +114,7 @@ class AppTheme {
         ),
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.secondary,
         foregroundColor: Colors.white,
       ),
     );
