@@ -1,6 +1,8 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_ufpso/utils/app_theme.dart';
 import 'package:to_do_ufpso/utils/validators.dart';
+import 'package:to_do_ufpso/widgets/eco_logo.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -11,10 +13,10 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-  
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  
+
   bool _isLoading = false;
 
   @override
@@ -24,33 +26,53 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  void _register() async {
-    // Validar el formulario
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      // Simular un tiempo de carga (Mock)
-      await Future.delayed(const Duration(seconds: 1));
-
-      setState(() {
-        _isLoading = false;
-      });
-
-      // Redirigir al Home después del "registro" si el widget sigue activo
-      if (mounted) {
-        Navigator.of(context).pushReplacementNamed('/home');
-      }
+  Future<void> _register() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
     }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    Navigator.of(context).pushReplacementNamed('/home');
+  }
+
+  Widget _buildSocialButton({
+    required Widget icon,
+    required String semanticLabel,
+  }) {
+    return SizedBox(
+      width: 52,
+      height: 52,
+      child: OutlinedButton(
+        onPressed: () {},
+        style: OutlinedButton.styleFrom(
+          shape: const CircleBorder(),
+          padding: EdgeInsets.zero,
+        ),
+        child: Semantics(
+          label: semanticLabel,
+          button: true,
+          child: icon,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Crear Cuenta'),
-      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -61,13 +83,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  const EcoLogo(size: 100),
+                  const SizedBox(height: 24),
                   const Text(
-                    'To-Do UFPSO',
+                    'Únete a Eco-Task',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primary,
+                      color: AppColors.darkGreen,
+                    ),
+                  ),
+                  const Text(
+                    'Crea tu cuenta y ayuda al planeta',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: AppColors.gray,
                     ),
                   ),
                   const SizedBox(height: 48),
@@ -76,7 +108,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
                       labelText: 'Correo Electrónico',
-                      prefixIcon: Icon(Icons.email),
+                      prefixIcon: Icon(Icons.email_outlined),
+                      border: OutlineInputBorder(),
                     ),
                     validator: Validators.validateEmail,
                   ),
@@ -86,9 +119,110 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     obscureText: true,
                     decoration: const InputDecoration(
                       labelText: 'Contraseña',
-                      prefixIcon: Icon(Icons.lock),
+                      prefixIcon: Icon(Icons.lock_outline),
+                      border: OutlineInputBorder(),
                     ),
                     validator: Validators.validatePassword,
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Confirmar Contraseña',
+                      prefixIcon: Icon(Icons.lock_outline),
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor confirma tu contraseña';
+                      }
+                      if (value != _passwordController.text) {
+                        return 'Las contraseñas no coinciden';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 24),
+                  // Estadísticas ecológicas
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColors.primary.withOpacity(0.1),
+                          AppColors.secondary.withOpacity(0.1),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.emoji_nature,
+                              color: AppColors.primary,
+                              size: 28,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '🌱',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Text(
+                              'Árboles',
+                              style: TextStyle(
+                                color: AppColors.darkGreen,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.water_drop,
+                              color: AppColors.accent,
+                              size: 28,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '💧',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Text(
+                              'Agua',
+                              style: TextStyle(
+                                color: AppColors.darkGreen,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.recycling,
+                              color: AppColors.accent,
+                              size: 28,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '♻️',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Text(
+                              'Reciclar',
+                              style: TextStyle(
+                                color: AppColors.darkGreen,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 32),
                   ElevatedButton(
@@ -102,21 +236,95 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             width: 24,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Text('Registrarse'),
+                        : const Text(
+                            'Crear Cuenta',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'O regístrate con',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: AppColors.gray),
                   ),
                   const SizedBox(height: 16),
-                  TextButton(
-                    onPressed: _isLoading
-                        ? null
-                        : () {
-                            Navigator.of(context).pushReplacementNamed('/login');
-                          },
-                    child: const Text('Ya tienes cuenta? Inicia sesion'),
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      _buildSocialButton(
+                        icon: const FaIcon(FontAwesomeIcons.google),
+                        semanticLabel: 'Google',
+                      ),
+                      _buildSocialButton(
+                        icon: const FaIcon(FontAwesomeIcons.github),
+                        semanticLabel: 'GitHub',
+                      ),
+                      _buildSocialButton(
+                        icon: const FaIcon(FontAwesomeIcons.facebookF),
+                        semanticLabel: 'Facebook',
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('¿Ya tienes una cuenta? '),
+                      TextButton(
+                        onPressed: _isLoading
+                            ? null
+                            : () {
+                                Navigator.of(
+                                  context,
+                                ).pushReplacementNamed('/login');
+                              },
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: const Text(
+                          'Inicia sesión',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
           ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.primary,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.favorite,
+              color: Colors.white,
+              size: 20,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              'Únete al cambio',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
       ),
     );
